@@ -1,99 +1,127 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const catalog = document.getElementById("catalog");
-  const cartList = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-  const checkoutBtn = document.getElementById("cart-checkout");
-
-  // Products array (add your images in the images/ folder)
-  const items = [
+// Product data
+const items = [
     { id: 1, name: "Tesla Model S Plaid", category: "sealed", price: 4, image: "images/tesla plaid.jpg" },
     { id: 2, name: "Dodge Viper SRT10 ACR", category: "sealed", price: 4, image: "images/dodge viper.png" },
     { id: 3, name: "'98 Subaru Impreza 22B-STi Version", category: "sealed", price: 4, image: "images/subaru.jpg" },
     { id: 4, name: "'95 Mazda RX-7", category: "sealed", price: 4, image: "images/mazda.jpg" }
   ];
 
-  let cart = [];
+// Cart array
+let cart = [];
 
-  // Display catalog items
-  function displayItems(filter = "all") {
-    catalog.innerHTML = "";
-    const filtered = filter === "all" ? items : items.filter(i => i.category === filter);
+// DOM elements
+const catalog = document.getElementById("catalog");
+const cartPopup = document.getElementById("cart-popup");
+const cartList = document.getElementById("cart-items");
+const cartTotal = document.getElementById("cart-total");
+const cartToggle = document.getElementById("cart-toggle");
+const cartClose = document.getElementById("cart-close");
+const cartCount = document.getElementById("cart-count");
+const cartCheckout = document.getElementById("cart-checkout");
 
-    filtered.forEach(item => {
-      const card = document.createElement("div");
-      card.classList.add("item");
-      card.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <h3>${item.name}</h3>
-        <p>Price: $${item.price}</p>
-        <button>Add to Cart</button>
-      `;
+// Display products
+function displayItems(filteredItems) {
+  catalog.innerHTML = "";
+  filteredItems.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "item";
 
-      card.querySelector("button").addEventListener("click", () => {
-        cart.push(item);
-        renderCart();
-      });
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.name}">
+      <h3>${item.name}</h3>
+      <p>$${item.price}</p>
+      <button>Add to Cart</button>
+    `;
 
-      catalog.appendChild(card);
+    // Add to cart button
+    const addBtn = div.querySelector("button");
+    addBtn.addEventListener("click", () => {
+      cart.push(item);
+      renderCart();
+      updateCartCount();
     });
+
+    catalog.appendChild(div);
+  });
+}
+
+// Filter products
+function filterItems(category) {
+  if (category === "all") {
+    displayItems(items);
+  } else {
+    displayItems(items.filter(item => item.type === category));
   }
+}
 
-  // Render cart
-  function renderCart() {
-    cartList.innerHTML = "";
-    let total = 0;
+// Render cart popup
+function renderCart() {
+  cartList.innerHTML = "";
+  let total = 0;
 
-    cart.forEach((item, index) => {
-      total += item.price;
-      const li = document.createElement("li");
-      li.textContent = `${item.name} - $${item.price}`;
+  cart.forEach((item, index) => {
+    total += item.price;
 
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "Remove";
-      removeBtn.addEventListener("click", () => {
-        cart.splice(index, 1);
-        renderCart();
-      });
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - $${item.price}`;
 
-      li.appendChild(removeBtn);
-      cartList.appendChild(li);
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.addEventListener("click", () => {
+      cart.splice(index, 1);
+      renderCart();
+      updateCartCount();
     });
 
-    cartTotal.textContent = `Total: $${total}`;
-  }
-
-  // WhatsApp checkout
-  checkoutBtn.addEventListener("click", () => {
-    if(cart.length === 0){
-      alert("Your cart is empty!");
-      return;
-    }
-
-    const phoneNumber = "96171226007"; 
-    let message = "Hello! I’d like to buy:\n";
-    let total = 0;
-
-    cart.forEach(item => {
-      message += `- ${item.name}: $${item.price}\n`;
-      total += item.price;
-    });
-
-    message += `Total: $${total}`;
-    message = encodeURIComponent(message);
-
-    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
+    li.appendChild(removeBtn);
+    cartList.appendChild(li);
   });
 
-  // Filter buttons
-  const filterBtns = document.querySelectorAll(".filter-btn");
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const filter = btn.dataset.filter;
-      displayItems(filter);
-    });
-  });
+  cartTotal.textContent = `Total: $${total}`;
+}
 
-  // Initial load
-  displayItems();
-  renderCart();
+// Update cart count in header
+function updateCartCount() {
+  cartCount.textContent = cart.length;
+}
+
+// Cart popup toggle
+cartToggle.addEventListener("click", () => {
+  cartPopup.classList.toggle("hidden");
+});
+
+cartClose.addEventListener("click", () => {
+  cartPopup.classList.add("hidden");
+});
+
+// WhatsApp checkout
+cartCheckout.addEventListener("click", () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  let message = "Hi! I want to buy these items:\n";
+  let total = 0;
+  cart.forEach(item => {
+    message += `- ${item.name} ($${item.price})\n`;
+    total += item.price;
+  });
+  message += `Total: $${total}`;
+
+  // Replace YOUR_NUMBER with your actual WhatsApp number (with country code)
+  const phoneNumber = "YOUR_NUMBER";
+  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+});
+
+// Initialize
+displayItems(items);
+
+// Filter buttons
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterItems(btn.dataset.filter);
+  });
 });
