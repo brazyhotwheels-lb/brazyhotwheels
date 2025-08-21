@@ -1,0 +1,176 @@
+/* General page styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff5f5;
+  color: #333;
+}
+
+/* Header */
+header {
+  background: #b30000;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+header .logo {
+  height: 200px; /* bigger logo */
+  width: auto;   /* keeps the aspect ratio */
+  display: block;
+  margin: 0 auto; /* centers it */
+  margin-bottom: 10px;
+}
+
+
+header .slogan {
+  margin: 0.2rem 0 0;
+  font-style: italic;
+}
+
+/* Filter buttons */
+header nav {
+  margin-top: 0.5rem;
+}
+
+header nav button {
+  background: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.3rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+header nav button:hover {
+  background: #ddd;
+}
+
+/* Main layout */
+main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+/* Catalog grid */
+#catalog {
+  flex: 3;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+/* Item cards */
+.item {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px; /* fixed height for all cards */
+}
+
+.item img {
+  width: 80%;
+  height: 200px;       /* fixed image height */
+  object-fit: cover;   /* crops/scales nicely */
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.item h3 {
+  margin: 0.3rem 0;
+  font-size: 1.1rem;
+}
+
+.item p {
+  margin: 0.2rem 0;
+}
+
+/* Add to Cart button stays at bottom */
+.item button {
+  background: #b30000;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-top: auto; /* push button to bottom */
+}
+
+.item button:hover {
+  background: #800000;
+}
+
+/* Cart sidebar */
+aside {
+  flex: 1;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+aside h2 {
+  margin-top: 0;
+}
+
+#cart-items {
+  list-style: none;
+  padding: 0;
+}
+
+#cart-items li {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#cart-items button {
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#cart-items button:hover {
+  background: #cc0000;
+}
+
+/* Checkout button */
+#cart-checkout {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background: #b30000;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#cart-checkout:hover {
+  background: #800000;
+}
+
+/* Logo styling */
+header .logo {
+  height: 100px;    /* bigger logo */
+  width: auto;
+  display: block;
+  margin: 0 auto 0.5rem auto; /* center logo and spacing */
+}
