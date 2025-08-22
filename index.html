@@ -3,35 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collectibles Catalog</title>
+  <title>Brazy Hot Wheels</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>
-      <img src="images/logo.png" alt="My Collectibles Logo" class="logo">
-    </h1>
-    <p class="slogan">Rare Finds, Just For You</p>
 
-    <nav>
-      <button class="filter-btn" data-filter="all">All Items</button>
-      <button class="filter-btn" data-filter="unsealed">Unsealed Cars</button>
-      <button class="filter-btn" data-filter="sealed">Sealed Cars</button>
-      <button id="cart-toggle">🛒 Cart (<span id="cart-count">0</span>)</button>
-    </nav>
+  <!-- Header -->
+  <header>
+    <img src="images/logo.png" alt="Hot Wheels Logo" class="logo">
+    <h1>Brazy Hot Wheels</h1>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+
+
+    <button id="cart-btn" class="cart-button">🛒 Cart (<span id="cart-count">0</span>)</button>
   </header>
 
-  <main>
-    <section id="catalog"></section>
+  <!-- Filter -->
+  <div class="filters">
+    <label for="filter">Filter by:</label>
+    <select id="filter">
+      <option value="all">All</option>
+      <option value="sealed">Sealed</option>
+      <option value="unsealed">Unsealed</option>
+    </select>
+  </div>
 
-    <!-- Hidden cart popup -->
-    <div id="cart-popup" class="hidden">
-      <h2>Your Cart</h2>
-      <ul id="cart-items"></ul>
-      <p id="cart-total">Total: $0</p>
-      <button id="cart-checkout">Buy on WhatsApp</button>
-      <button id="cart-close">Close</button>
-    </div>
+  <!-- Product Grid -->
+  <main>
+    <div id="products-container" class="product-grid"></div>
   </main>
 
   <script src="script.js"></script>
