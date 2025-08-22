@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Brazy Hot Wheels Logo" class="logo-img">
+      <h1 class="logo-title">Brazy Hot Wheels</h1>
+    </div>
+  </header>
+
+  <main class="product-details-container">
+    <img id="product-img" src="" alt="Product Image" class="product-full-img">
+    <h2 id="product-name"></h2>
+    <p id="product-price"></p>
+    <p id="product-description"></p>
+    <button id="add-to-cart-btn" class="cart-btn">Add to Cart</button>
+    <button id="back-btn" class="cart-btn">Back to Catalog</button>
+  </main>
+
+  <script>
+    // Make sure 'products' array exists. Either include here or in script.js
+    const products = [
+      { id: 1, name: "Tesla Model S Plaid", price: 4, sealed: true, image: "images/tesla plaid.jpg", description: "Tesla Model S Plaid, 1:64 scale Hot Wheels collectible." },
+      { id: 2, name: "Dodge Viper SRT10 ACR", price: 4, sealed: true, image: "images/dodge viper.png", description: "Dodge Viper Hot Wheels collectible, pristine condition." },
+      { id: 3, name: "'98 Subaru Impreza 22B-STi Version", price: 4, sealed: true, image: "images/subaru.png", description: "Hot Wheels Subaru 22B-STi collectible." },
+      { id: 4, name: "Alfa Romeo GTV6 3.0", price: 4, sealed: true, image: "images/alfa romeo.jpg", description: "Alfa Romeo Hot Wheels collectible." },
+      { id: 5, name: "2020 Koenigsegg Jesko", price: 4, sealed: true, image: "images/2020 jesko.jpg", description: "Koenigsegg Jesko Hot Wheels collectible." },
+      { id: 6, name: "Ford Mustang Dark Horse", price: 15, sealed: true, image: "images/ford mustang.jpg", description: "Ford Mustang Dark Horse Hot Wheels." },
+      { id: 7, name: "Nissan Skyline 2000GT-R LBWK", price: 13, sealed: true, image: "images/nissan skyline.png", description: "Nissan Skyline Hot Wheels collectible." },
+      { id: 8, name: "Porsche 911 GT3 Cup [992]", price: 10, sealed: true, image: "images/porsche 911.png", description: "Porsche 911 GT3 Cup Hot Wheels." }
+    ];
+
+    // Get product id from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get("id"));
+
+    const product = products.find(p => p.id === productId);
+
+    if(product){
+      document.getElementById("product-img").src = product.image;
+      document.getElementById("product-img").alt = product.name;
+      document.getElementById("product-name").textContent = product.name;
+      document.getElementById("product-price").textContent = `$${product.price}`;
+      document.getElementById("product-description").textContent = product.description;
+    }
+
+    // Add to cart
+    document.getElementById("add-to-cart-btn").addEventListener("click", () => {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${product.name} added to cart!`);
+    });
+
+    // Back to catalog
+    document.getElementById("back-btn").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>

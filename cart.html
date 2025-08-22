@@ -3,91 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart</title>
+  <title>Hot Wheels Cart</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 </head>
 <body>
+
   <header>
-    <h1>Shopping Cart</h1>
-    <a href="index.html" class="btn">← Continue Shopping</a>
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Brazy Hot Wheels Logo" class="logo-img">
+      <h1 class="logo-title">Brazy Hot Wheels</h1>
+    </div>
   </header>
 
-  <main>
-    <div id="cart-items"></div>
-    <div id="cart-total"></div>
-    <button id="checkout-btn" class="btn">Buy on WhatsApp</button>
-  </main>
+  <div class="cart-container">
+    <ul id="cart-items"></ul>
+    <p id="cart-total"></p>
+    <button id="cart-checkout" class="cart-btn">Buy on WhatsApp</button>
+    <button id="continue-shopping" class="cart-btn">Continue Shopping</button>
+  </div>
 
   <script>
-    const cartItemsContainer = document.getElementById("cart-items");
-    const cartTotalContainer = document.getElementById("cart-total");
-    const checkoutBtn = document.getElementById("checkout-btn");
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartList = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    const cartCheckout = document.getElementById("cart-checkout");
+    const continueBtn = document.getElementById("continue-shopping");
 
     function renderCart() {
-      cartItemsContainer.innerHTML = "";
-      let subtotal = 0;
-
-      if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "<p>Your cart is empty 🛒</p>";
-        cartTotalContainer.innerHTML = "";
-        return;
-      }
-
-      cart.forEach((item, index) => {
-        subtotal += item.price;
-
-        const cartItem = document.createElement("div");
-        cartItem.classList.add("cart-item");
-        cartItem.innerHTML = `
-          <p>${item.name} - $${item.price}</p>
-          <button class="btn remove-btn" onclick="removeFromCart(${index})">Remove</button>
-        `;
-        cartItemsContainer.appendChild(cartItem);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cartList.innerHTML = "";
+      let total = 0;
+      cart.forEach((item,index) => {
+        total += item.price;
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price}`;
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Remove";
+        removeBtn.className = "remove-btn";
+        removeBtn.addEventListener("click", () => {
+          cart.splice(index,1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          renderCart();
+        });
+        li.appendChild(removeBtn);
+        cartList.appendChild(li);
       });
-
-      const deliveryFee = 2;
-      const total = subtotal + deliveryFee;
-
-      cartTotalContainer.innerHTML = `
-        <p>Subtotal: $${subtotal}</p>
-        <p>Delivery Fee: $${deliveryFee}</p>
-        <h3>Total: $${total}</h3>
-      `;
+      total += 2; // delivery fee
+      cartTotal.textContent = `Total (incl. $2 delivery): $${total}`;
     }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      renderCart();
-    }
-
-    checkoutBtn.addEventListener("click", () => {
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-      }
-
-      let message = "Hello! I'd like to order:\n\n";
-      let subtotal = 0;
-
-      cart.forEach(item => {
-        message += `- ${item.name} ($${item.price})\n`;
-        subtotal += item.price;
-      });
-
-      const deliveryFee = 2;
-      const total = subtotal + deliveryFee;
-
-      message += `\nSubtotal: $${subtotal}\nDelivery Fee: $${deliveryFee}\nTotal: $${total}`;
-
-      const encodedMessage = encodeURIComponent(message);
-      const phoneNumber = "96171226007"; // Replace with your WhatsApp number in international format
-      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
-    });
 
     renderCart();
+
+    continueBtn.addEventListener("click", ()=> {
+      window.location.href = "index.html";
+    });
+
+    cartCheckout.addEventListener("click", ()=>{
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if(cart.length===0){ alert("Cart is empty!"); return; }
+      let msg = "Hi! I want to buy these items:\n";
+      let total = 0;
+      cart.forEach(item => {
+        msg += `- ${item.name} ($${item.price})\n`;
+        total += item.price;
+      });
+      total += 2; // delivery
+      msg += `Total (incl. $2 delivery): $${total}`;
+      const phone = "96171226007"; // Replace with your WhatsApp number
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+    });
   </script>
+
 </body>
 </html>

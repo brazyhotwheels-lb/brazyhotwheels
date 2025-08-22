@@ -5,33 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Brazy Hot Wheels</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <img src="images/logo.png" alt="Hot Wheels Logo" class="logo">
-    <h1>Brazy Hot Wheels</h1>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
-
-
-    <button id="cart-btn" class="cart-button">🛒 Cart (<span id="cart-count">0</span>)</button>
+    <div class="logo-container">
+      <img src="images/logo.png" alt="Brazy Hot Wheels Logo" class="logo-img">
+      <h1 class="logo-title">Brazy Hot Wheels</h1>
+    </div>
   </header>
 
-  <!-- Filter -->
+  <a href="cart.html" class="cart-link">🛒 Cart</a>
+
   <div class="filters">
-    <label for="filter">Filter by:</label>
-    <select id="filter">
-      <option value="all">All</option>
-      <option value="sealed">Sealed</option>
-      <option value="unsealed">Unsealed</option>
-    </select>
+    <button class="filter-btn" data-filter="all">All Items</button>
+    <button class="filter-btn" data-filter="sealed">Sealed Cars</button>
+    <button class="filter-btn" data-filter="unsealed">Unsealed Cars</button>
   </div>
 
-  <!-- Product Grid -->
-  <main>
-    <div id="products-container" class="product-grid"></div>
-  </main>
+  <div class="product-grid" id="catalog">
+    <!-- Products injected by JS -->
+  </div>
 
   <script src="script.js"></script>
 </body>
