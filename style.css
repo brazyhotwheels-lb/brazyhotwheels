@@ -1,178 +1,228 @@
-/* General page styling */
-body {
-  font-family: Arial, sans-serif;
+/* ===== General Reset ===== */
+* {
   margin: 0;
   padding: 0;
-  background: #fff5f5;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
   color: #333;
 }
 
-/* Header */
+/* ===== Header ===== */
 header {
-  background: #b30000;
+  background-color: #8b0000; /* Deep red */
   color: white;
-  padding: 1rem;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+header .logo {
+  height: 60px;
+  margin-right: 10px;
+}
+
+
+header h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 2.8rem;
+  color: white;
+  font-weight: lighter;
+}
+
+
+
+
+/* ===== Cart Button ===== */
+.cart-button {
+  background-color: #e60000; /* Bright red */
+  color: white;
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #990000;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.cart-button:hover {
+  background-color: #ff1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 #990000;
+}
+
+.cart-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #990000;
+}
+
+/* ===== Filters ===== */
+.filters {
+  padding: 15px;
   text-align: center;
 }
 
-header .slogan {
-  margin: 0.2rem 0 0;
-  font-style: italic;
-}
-
-/* Filter buttons + cart toggle */
-header nav {
-  margin-top: 0.5rem;
-}
-
-header nav button {
-  background: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin: 0 0.3rem;
+.filters select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
 }
 
-header nav button:hover {
-  background: #ddd;
+/* ===== Product Grid ===== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
-header .logo {
-  height: 200px; /* bigger logo */
-  width: auto;   /* keeps the aspect ratio */
-  display: block;
-  margin: 0 auto; /* centers it */
+
+/* ===== Product Card ===== */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 360px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card img {
+  width: 50%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
-/* Main layout */
-main {
-  padding: 1rem;
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
 }
 
-/* Catalog grid */
-#catalog {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
-}
-
-/* Item cards */
-.item {
-  background: white;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 300px; /* fixed height for all cards */
-}
-
-.item img {
-  width: 100%;
-  height: 150px;       
-  object-fit: cover;   
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-
-.item h3 {
-  margin: 0.3rem 0;
-  font-size: 1.1rem;
-}
-
-.item p {
-  margin: 0.2rem 0;
-}
-
-/* Add to Cart button stays at bottom */
-.item button {
-  background: #b30000;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-top: auto; 
-}
-
-.item button:hover {
-  background: #800000;
-}
-
-/* Cart popup */
-#cart-popup {
-  position: fixed;
-  top: 80px;
-  right: 20px;
-  width: 300px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  padding: 1rem;
-  z-index: 1000;
-}
-
-.hidden {
-  display: none;
-}
-
-#cart-popup h2 {
-  margin-top: 0;
-}
-
-#cart-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#cart-items li {
-  padding: 0.3rem 0;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#cart-items button {
-  background: #ff4d4d;
-  border: none;
-  color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#cart-items button:hover {
-  background: #cc0000;
-}
-
-#cart-popup button {
-  margin-top: 0.5rem;
-  width: 100%;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 8px;
-  background: #b30000;
-  color: white;
-  cursor: pointer;
+.card p {
+  margin: 5px 0;
   font-weight: bold;
+  color: #8b0000;
 }
 
-#cart-popup button:hover {
-  background: #800000;
+.card button {
+  background-color: #e60000;
+  color: white;
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: auto;
+  box-shadow: 0 4px 0 #990000;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
 }
 
-/* Logo styling */
-header .logo {
-  height: 100px;    
-  width: auto;
-  display: block;
-  margin: 0 auto 0.5rem auto; 
+.card button:hover {
+  background-color: #ff1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 #990000;
+}
+
+.card button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #990000;
+}
+
+/* ===== Cart Page ===== */
+.cart-page {
+  padding: 20px;
+}
+
+.cart-page h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.cart-items {
+  margin-bottom: 20px;
+}
+
+.cart-item {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ===== Total Price ===== */
+.total-price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: right;
+}
+
+/* ===== WhatsApp & Back Buttons ===== */
+button, .back-button, #whatsapp-btn {
+  background-color: #e60000; /* Bright red */
+  color: white;
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 0 #990000;
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+button:hover, .back-button:hover, #whatsapp-btn:hover {
+  background-color: #ff1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 #990000;
+}
+
+button:active, .back-button:active, #whatsapp-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #990000;
+}
+
+/* Make WhatsApp button full width */
+#whatsapp-btn {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
 }
