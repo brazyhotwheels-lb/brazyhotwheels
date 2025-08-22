@@ -1,127 +1,68 @@
-// Product data
-const items = [
-    { id: 1, name: "Tesla Model S Plaid", category: "sealed", price: 4, image: "images/tesla plaid.jpg" },
-    { id: 2, name: "Dodge Viper SRT10 ACR", category: "sealed", price: 4, image: "images/dodge viper.png" },
-    { id: 3, name: "'98 Subaru Impreza 22B-STi Version", category: "sealed", price: 4, image: "images/subaru.jpg" },
-    { id: 4, name: "'95 Mazda RX-7", category: "sealed", price: 4, image: "images/mazda.jpg" }
+// WhatsApp number (replace with your number)
+const whatsappNumber = "96171226007";
+
+// Sample products
+const products = [
+    { id: 1, name: "Tesla Model S Plaid", price: 4, sealed: true, image: "images/tesla plaid.jpg" },
+    { id: 2, name: "Dodge Viper SRT10 ACR", price: 4, sealed: true, image: "images/dodge viper.png" },
+    { id: 3, name: "'98 Subaru Impreza 22B-STi Version", price: 4, sealed: true,  image: "images/subaru.png" },
+    { id: 4, name: "Alfa Romeo GTV6 3.0", price: 4, sealed: true,  image: "images/alfa romeo.jpg" },
+    { id: 5, name: "2020 Koenigsegg Jesko", price: 4, sealed: true,  image: "images/2020 jesko.jpg" },
+    { id: 6, name: "Ford Mustang Dark Horse", price: 15, sealed: true,  image: "images/ford mustang.jpg" },
+    { id: 7, name: "Nissan Skyline 2000GT-R LBWK", price: 13, sealed: true,  image: "images/nissan skyline.png" },
+    { id: 3, name: "Porsche 911 GT3 Cup [992]", price: 10, sealed: true,  image: "images/porsche 911.png" },
   ];
 
-// Cart array
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// DOM elements
-const catalog = document.getElementById("catalog");
-const cartPopup = document.getElementById("cart-popup");
-const cartList = document.getElementById("cart-items");
-const cartTotal = document.getElementById("cart-total");
-const cartToggle = document.getElementById("cart-toggle");
-const cartClose = document.getElementById("cart-close");
-const cartCount = document.getElementById("cart-count");
-const cartCheckout = document.getElementById("cart-checkout");
+// Render products
+function renderProducts(filter = "all") {
+  const container = document.getElementById("products-container");
+  container.innerHTML = "";
 
-// Display products
-function displayItems(filteredItems) {
-  catalog.innerHTML = "";
-  filteredItems.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "item";
+  let filteredProducts = products;
+  if (filter === "sealed") filteredProducts = products.filter(p => p.sealed);
+  if (filter === "unsealed") filteredProducts = products.filter(p => !p.sealed);
 
-    div.innerHTML = `
-      <img src="${item.img}" alt="${item.name}">
-      <h3>${item.name}</h3>
-      <p>$${item.price}</p>
-      <button>Add to Cart</button>
+  filteredProducts.forEach(product => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>$${product.price}</p>
+      <button onclick="addToCart(${product.id})">Add to Cart</button>
     `;
-
-    // Add to cart button
-    const addBtn = div.querySelector("button");
-    addBtn.addEventListener("click", () => {
-      cart.push(item);
-      renderCart();
-      updateCartCount();
-    });
-
-    catalog.appendChild(div);
+    container.appendChild(card);
   });
 }
 
-// Filter products
-function filterItems(category) {
-  if (category === "all") {
-    displayItems(items);
-  } else {
-    displayItems(items.filter(item => item.type === category));
-  }
+// Add to cart
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert(`${product.name} added to cart!`);
 }
 
-// Render cart popup
-function renderCart() {
-  cartList.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item, index) => {
-    total += item.price;
-
-    const li = document.createElement("li");
-    li.textContent = `${item.name} - $${item.price}`;
-
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn.addEventListener("click", () => {
-      cart.splice(index, 1);
-      renderCart();
-      updateCartCount();
-    });
-
-    li.appendChild(removeBtn);
-    cartList.appendChild(li);
-  });
-
-  cartTotal.textContent = `Total: $${total}`;
-}
-
-// Update cart count in header
+// Update cart count
 function updateCartCount() {
-  cartCount.textContent = cart.length;
+  document.getElementById("cart-count").textContent = cart.length;
 }
 
-// Cart popup toggle
-cartToggle.addEventListener("click", () => {
-  cartPopup.classList.toggle("hidden");
+// Filter event
+document.getElementById("filter").addEventListener("change", e => {
+  renderProducts(e.target.value);
 });
 
-cartClose.addEventListener("click", () => {
-  cartPopup.classList.add("hidden");
+// Cart button
+document.getElementById("cart-btn").addEventListener("click", () => {
+  // Save cart to localStorage then go to cart.html
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "cart.html";
 });
 
-// WhatsApp checkout
-cartCheckout.addEventListener("click", () => {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  let message = "Hi! I want to buy these items:\n";
-  let total = 0;
-  cart.forEach(item => {
-    message += `- ${item.name} ($${item.price})\n`;
-    total += item.price;
-  });
-  message += `Total: $${total}`;
-
-  // Replace YOUR_NUMBER with your actual WhatsApp number (with country code)
-  const phoneNumber = "YOUR_NUMBER";
-  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-  window.open(url, "_blank");
-});
-
-// Initialize
-displayItems(items);
-
-// Filter buttons
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    filterItems(btn.dataset.filter);
-  });
-});
+// Initial render
+renderProducts();
+updateCartCount();
