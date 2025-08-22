@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Shopping Cart</h1>
+    <a href="index.html" class="btn">← Continue Shopping</a>
+  </header>
+
+  <main>
+    <div id="cart-items"></div>
+    <div id="cart-total"></div>
+    <button id="checkout-btn" class="btn">Buy on WhatsApp</button>
+  </main>
+
+  <script>
+    const cartItemsContainer = document.getElementById("cart-items");
+    const cartTotalContainer = document.getElementById("cart-total");
+    const checkoutBtn = document.getElementById("checkout-btn");
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function renderCart() {
+      cartItemsContainer.innerHTML = "";
+      let subtotal = 0;
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>Your cart is empty 🛒</p>";
+        cartTotalContainer.innerHTML = "";
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        subtotal += item.price;
+
+        const cartItem = document.createElement("div");
+        cartItem.classList.add("cart-item");
+        cartItem.innerHTML = `
+          <p>${item.name} - $${item.price}</p>
+          <button class="btn remove-btn" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+      });
+
+      const deliveryFee = 2;
+      const total = subtotal + deliveryFee;
+
+      cartTotalContainer.innerHTML = `
+        <p>Subtotal: $${subtotal}</p>
+        <p>Delivery Fee: $${deliveryFee}</p>
+        <h3>Total: $${total}</h3>
+      `;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    }
+
+    checkoutBtn.addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      let message = "Hello! I'd like to order:\n\n";
+      let subtotal = 0;
+
+      cart.forEach(item => {
+        message += `- ${item.name} ($${item.price})\n`;
+        subtotal += item.price;
+      });
+
+      const deliveryFee = 2;
+      const total = subtotal + deliveryFee;
+
+      message += `\nSubtotal: $${subtotal}\nDelivery Fee: $${deliveryFee}\nTotal: $${total}`;
+
+      const encodedMessage = encodeURIComponent(message);
+      const phoneNumber = "961YOURNUMBER"; // Replace with your WhatsApp number in international format
+      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
