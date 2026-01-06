@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: 12, name: "'73 Honda Civic Custom", price: 2, sealed: false, image: "images/civic.jpg", description: "Exotic supercar with V12 power." },
     { id: 13, name: "Fish'd & Chip'd", price: 6, sealed: true, image: "images/fishd n chipd.jpg", description: "Treasure Hunt!" },
     { id: 14, name: "Formula E gen3", price: 5, sealed: true, image: "images/formula e gen3.jpg", description: "Formula E Gen3" },
-    { id: 15, name: "Lamborghini Huracan Sterrato", price: 4, sealed: true, image: "images/lamborghini huracan sterrato.jpeg", description: "Lamborghini Huracan Sterrato" },
+    { id: 15, name: "Lamborghini Huracan Sterrato", price: 4, sealed: true, image: "images/lamborghini huracan sterrato.jpg", description: "Lamborghini Huracan Sterrato" },
     { id: 16, name: "Nissan Leaf Nismo RC_02", price: 6, sealed: true, image: "images/nissan leaf.jpeg", description: "Treasure Hunt!" },
     { id: 16, name: "Bugatti Veyron", price: 15, sealed: true, image: "images/bugatti veyron.jpg", description: "Bugatti Veyron" },
  
@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
 
 
 
